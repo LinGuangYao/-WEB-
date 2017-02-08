@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>jQuery模态窗口登陆效果 - 站长素材</title>
+  <link rel="stylesheet" type="text/css" media="all" href="css/style-log.css">
+  <script type="text/javascript" src="libs/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="libs/jquery.leanModal.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/login.js"></script>
+</head>
+
+<body>
+  <div id="w">
+    <div id="content">
+      <h1>欢迎登录管理员界面</h1>
+     
+      <center><a href="#loginmodal" class="flatbtn" id="modaltrigger">登录</a></center>
+    </div>
+  </div>
+  <div id="loginmodal" style="display:none;">
+    <h1>管理员登录</h1>
+    <form id="loginform" name="loginform" method="post" action="index.html">
+      <label for="username">账号:</label>
+      <input type="text" name="username" id="username" class="txtfield" tabindex="1">
+      
+      <label for="password">密码:</label>
+      <input type="password" name="password" id="password" class="txtfield" tabindex="2">
+      
+      <div class="center"><input type="button" name="loginbtn" id="loginbtn" class="flatbtn-blu hidemodal"  tabindex="3" onclick="log()"  value="确认"/></div>
+    </form>
+  </div>
+<script type="text/javascript">
+    $(function () {
+        $('#loginform').submit(function (e) {
+            return false;
+        });
+
+        $('#modaltrigger').leanModal({ top: 110, overlay: 0.45, closeButton: ".hidemodal" });
+    });
+</script>
+<div style="text-align:center;clear:both">
+
+</div>
+</body>
+</html>

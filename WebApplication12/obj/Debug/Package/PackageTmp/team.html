@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>长春雾霾分析子系统</title>
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/style-1.css" rel='stylesheet' type='text/css' />
+<link href="css/mapcon.css"  rel="stylesheet" type="text/css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<script type="application/x-javascript"> </script>
+<script src="libs/jquery-1.11.2.min.js" type="text/javascript"></script>
+
+ <script src="js/ZhangDianZhuoBiao.js" type="text/javascript"></script>
+<script src="js/loadingMap.js" type="text/javascript"></script>
+<script src="js/TuPianBiaoZu.js" type="text/javascript"></script> 
+<script src="libs/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script  src="libs/OpenLayers.js" type="text/javascript"></script>
+<script src="libs/zdclient.js" type="text/javascript"></script>
+<script src="libs/zdclient.js" type="text/javascript"></script>
+<script type="text/javascript" src="libs/jQuery Easing.js"></script>
+<script src="js/WuMaiChaXun.js" type="text/javascript"></script>
+<script src="libs/jquery.magnific-popup.js" type="text/javascript"></script>
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css"/>
+ <script src="libs/echarts.js" type="text/javascript"></script> 
+ <script src="js/JiChu.js" type="text/javascript"></script> 
+<script type="text/javascript">
+    $(document).ready(init);
+
+    var markerLayer = null, marker;
+
+    var date_popu;
+    var data_Biao = null;
+
+
+
+    function ShowMessage() {
+
+        var xxx = new Array();
+        for (var i = 0; i < 10; i++) {
+            xxx[i] = i;
+        }
+
+        var yyy = new Array();
+        for (var i = 0; i < 10; i++) {
+            yyy[i] = i;
+        }
+
+
+        $.ajax({
+            url: "ashx/ZhangDianZhuoBiao.ashx",
+            type: "POST",
+            dataType: "json",
+            async: false,
+            success: GetResults1
+        });
+
+        function GetResults1(json) {
+            var jsonPage = eval(json);
+            var jsonArray = json.points;
+            $.each(jsonArray, function (index, item) {
+                xxx[index] = jsonArray[index].X;
+                yyy[index] = jsonArray[index].Y;
+
+            });
+        }
+
+
+        var TPBZPopupArr = []; //标注弹框数组
+        //图片标注的坐标数组
+        var TPBZMarkArr = [new OpenLayers.LonLat(xxx[0], yyy[0]),
+                    new OpenLayers.LonLat(xxx[1], yyy[1]),
+                    new OpenLayers.LonLat(xxx[2], yyy[2]),
+                    new OpenLayers.LonLat(xxx[3], yyy[3]),
+                    new OpenLayers.LonLat(xxx[4], yyy[4]),
+                    new OpenLayers.LonLat(xxx[5], yyy[5]),
+                    new OpenLayers.LonLat(xxx[6], yyy[6]),
+                    new OpenLayers.LonLat(xxx[7], yyy[7]),
+                    new OpenLayers.LonLat(xxx[8], yyy[8]),
+                    new OpenLayers.LonLat(xxx[9], yyy[9]),
+                  ];
+
+
+
+        var imgURL = 'libs/img/marker.png';
+        if (markerLayer == null) {
+            markerLayer = new OpenLayers.Layer.Markers("Marker Layer");
+            map.addLayer(markerLayer);
+        }
+        for (var i = 0; i < 10; i++) {
+            marker = new OpenLayers.Marker(TPBZMarkArr[i], new OpenLayers.Icon(imgURL, new OpenLayers.Size(24, 30), new OpenLayers.Pixel(-(25 / 2), -25)));
+            markerLayer.addMarker(marker);
+        }
+
+
+        var date = new Date();
+        var nowdate, beforedate;
+        var yy = date.getFullYear();
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
+        nowdate = yy + "/" + mm + "/" + dd;
+        $.ajax({
+            url: "ashx/WuMaiChaXun.ashx",
+            type: "POST",
+            dataType: "json",
+            async: false,
+            data: { DAY: nowdate, GuoKongDian: "ALL", GuoKongDian_WRW: "ALL" },
+            success: GetResults
+        });
+
+        function GetResults(json) {
+            var jsonPage = eval(json);
+            data_Biao = json.WMXX;
+        }
+
+
+        var myChart = echarts.init(document.getElementById('TongJi_DueBi'));
+        var option = {
+            series: [
+        {
+            name: '访问来源',
+            type: 'pie',
+            radius: '55%',
+            roseType: 'angle',
+            data: [
+                  { value: data_Biao[0].AQI, name: '食品厂' },
+                  { value: data_Biao[1].AQI, name: '客车厂' },
+                  { value: data_Biao[2].AQI, name: '邮电学院' },
+                  { value: data_Biao[3].AQI, name: '劳动公园' },
+                  { value: data_Biao[4].AQI, name: '园林处' },
+                  { value: data_Biao[5].AQI, name: '净月潭 ' },
+                  { value: data_Biao[6].AQI, name: '甩湾子' },
+                  { value: data_Biao[7].AQI, name: '经开区环卫处' },
+                  { value: data_Biao[8].AQI, name: '高新区管委会' },
+                  { value: data_Biao[9].AQI, name: '岱山公园' }
+            ]
+        }
+     ]
+        };
+
+        myChart.setOption(option);
+
+
+
+        var shtml, icolmax;
+
+        var cols = new Array();
+        for (var key in data_Biao[0]) {
+            cols[cols.length] = key;
+        }
+
+        icolmax = cols.length;
+
+        shtml = "<table class='table table-hover'><tr>";
+        for (var i = 0; i < icolmax; i++) {
+            shtml += "<th>" + cols[i] + "</th>";
+        }
+        shtml += "</tr>";
+
+        var irowmax = data_Biao.length;
+
+        for (var irow = 0; irow < irowmax; irow++) {
+            shtml += "<tr>";
+            for (var i = 0; i < icolmax; i++) {
+                shtml += "<td id=' " + irow + i + " '>" + data_Biao[irow][cols[i]] + "</td>";
+            }
+            shtml += "</tr>";
+        }
+        document.getElementById('grid_div_11').innerHTML = shtml;
+
+
+    }
+    window.onload = function () { ShowMessage(); papa(); } 
+   
+     </script>
+	
+	
+		<!--<script>
+		    $(document).ready(function () {
+		        $('.popup-with-zoom-anim').magnificPopup({
+		            type: 'inline',
+		            fixedContentPos: false,
+		            fixedBgPos: true,
+		            overflowY: 'auto',
+		            closeBtnInside: true,
+		            preloader: false,
+		            midClick: true,
+		            removalDelay: 300,
+		            mainClass: 'my-mfp-zoom-in'
+		        });
+		    });
+		</script>-->
+
+
+
+</head>
+<body  >
+
+	<div class="header">
+	  <div class="container">
+		<div class="row">
+			  <div class="col-md-12">
+              
+              <div class="logo">
+						<a href="/index.htm"> <img src="libs/img/字体1s(1).png" width="500" height="66" /></a>
+					 </div>
+				 <div class="header-left">
+					 
+					 <div class="menu">
+						  
+						    <ul class="nav" id="nav" >
+						    	
+						    	<li class="current" style="font-size:25px; background-color:#F00; font-family:'微软雅黑' ;"><a href="team.html">首页</a></li>
+                                
+                                <li style="font-size:25px; font-family:'微软雅黑' ;"><a href="foundation.htm">Web分析服务</a></li>
+                                <li style="font-size:25px; font-family:'微软雅黑' ;"><a href="subindex.htm">移动交互服务</a></li>
+                                <li style="font-size:25px; font-family:'微软雅黑' ;"> <a href="guanyuwomen.html">关于我们</a></li>
+									
+								<div class="clear"></div>
+							</ul>
+							<script type="text/javascript" src="js/responsive-nav.js"></script>
+				    </div>							
+	    		    <div class="clear"></div>
+	    	    </div>
+          </div>
+		 </div>
+	    </div>
+	  </div>
+      
+      
+<div class="main">
+      <div class="shop_top">
+		<div class="container">
+			<div class="row team_box">
+				<h3 class="m_2">雾霾相关</h3>
+				
+                <div class="col-md-3 team1">
+				  <a class="popup-with-zoom-anim" href="#small-dialog1"><img src="libs/img/f96f7228de1e2c13622fdae8ff06c1a4.png" class="img-responsive" title="continue" alt=""/></a>
+				    <div id="small-dialog1" class="mfp-hide">
+					   <div class="pop_up2">
+					   	 <h2 class="m_5">基本含义</h2>
+						 <p class="m_6">雾霾，顾名思义是雾和霾。但是雾和霾的区别很大。空气中的灰尘、硫酸、硝酸等颗粒物组成的气溶胶系统造成视觉障碍的叫霾。霾就是灰霾（烟霞）。雾是由大量悬浮在近地面空气中的微小水滴或冰晶组成的气溶胶系统。多出现于秋冬季节（这也是2013年1月份全国大面积雾霾天气的原因之一），是近地面层空气中水汽凝结（或凝华）的产物。雾的存在会降低空气透明度，使能见度恶化，如果目标物的水平能见度降低到1000米以内，就将悬浮在近地面空气中的水汽凝结（或凝华）物的天气现象称为雾（Fog）。霾（mái），也称灰霾（烟雾） 空气中的灰尘、硫酸、硝酸、有机碳氢化合物等粒子也能使大气混浊。将目标物的水平能见度在1000～10000米的这种现象称为轻雾或（Mist）。形成雾时大气湿度应该是饱和的(如有大量凝结核存在时，相对湿度不一定达到100%就可能出现饱和)。由于液态水或冰晶组成的雾散射的光与波长关系不大，因而雾看起来呈乳白色或青白色和灰色。</p>
+                         <p class="m_6">雾霾天气是一种大气污染状态，雾霾是对大气中各种悬浮颗粒物含量超标的笼统表述，尤其是PM2.5（空气动力学当量直径小于等于2.5微米的颗粒物）被认为是造成雾霾天气的“元凶”。随着空气质量的恶化，阴霾天气现象出现增多，危害加重。中国不少地区把阴霾天气现象并入雾一起作为灾害性天气预警预报。统称为“雾霾天气”。</p>
+					   </div>
+					</div>
+					<h4 class="m_5"><a href="#">基本含义</a></h4>
+				    
+				</div>
+                
+                
+				<div class="col-md-3 team1">
+					<a class="popup-with-zoom-anim" href="#small-dialog2"><img src="libs/img/9fdf9ec3c05c18e6bb34ba71b9f3072e.jpg" alt="" height="187" class="img-responsive" title="continue"/></a>
+				    <div id="small-dialog2" class="mfp-hide">
+					   <div class="pop_up2">
+					  <h2 class="m_5">主要来源</h2>
+						 <p class="m_6"> 1、汽车尾气。使用柴油的大型车是排PM10的“重犯”，包括大公交、各单位的班车，以及大型运输 卡车等。城市有毒颗粒物来源：首先是汽车尾气。使用柴油的车子是排放细颗粒物的“重犯”。使用汽油的小型车虽然排放的是气态污染物，比如氮氧化物等，但碰上雾天，也很容易转化为二次颗粒污染物，加重雾霾。  机动车的尾气是雾霾颗粒组成的最主要的成分，最新的数据显示，北京雾霾颗粒中机动车尾气占22.2%，燃煤占16.7%，扬尘占16.3%，工业占15.7%。</p><p class="m_6">  2、北方到了冬季烧煤供暖所产生的废气。</p><p class="m_6">  3、工业生产排放的废气。比如冶金、窑炉与锅炉、机电制造业，还有大量汽修喷漆、建材生产窑炉燃烧排放的废气。</p>  <p class="m_6">4、建筑工地和道路交通产生的扬尘。</p><p class="m_6">  5、可生长颗粒，细菌和病毒的粒径相当于PM0.1-PM2.5，空气中的湿度和温度适宜时，微生物会附着在颗粒物上，特别是油烟的颗粒物上，微生物吸收油滴后转化成更多的微生物，使得雾霾中的生物有毒物质生长增多。</p><p class="m_6">  6、家庭装修中也会产生粉尘“雾霾”，室内粉尘弥漫，不仅有害于工人与用户健康，增添清洁负担，粉尘严重时，还给装修工程带来诸多隐患。   除了气象条件，工业生产、机动车尾气排放、冬季取暖烧煤等导致的大气中的颗粒物（包括粗颗粒物PM10和细颗粒物PM2.5）浓度增加，是雾霾产生的重要因素。如今很多城市的污染物排放水平已处于临界点，对气象条件非常敏感，空气质量在扩散条件较好时能达标，一旦遭遇不利天气条件，空气质量和能见度就会立刻下滑。</p>
+					   </div>
+				    </div>
+                    <h4 class="m_5"><a href="#">主要来源</a></h4>				   
+				</div>
+          
+				<div class="col-md-3 team1">
+					<a class="popup-with-zoom-anim" href="#small-dialog3"><img src="libs/img/487d138cd2aee060c111e20f5cd02213.jpg" class="img-responsive" title="continue" alt=""/></a>
+				    <div id="small-dialog3" class="mfp-hide">
+					   <div class="pop_up2">
+                       <h2 class="m_5">具体危害</h2>
+                       <p class="m_6">对人体的危害：1、危害人体自由基功能，加速人体衰老。2、影响生殖功能。由于生殖泌尿系统是人体代谢最快的组织，当由外界吸入的颗粒进入人体血液循环时首先要受影响的就是生殖泌尿系统，会引起一些列生殖泌尿系统病变，比如肾衰竭、尿毒症、少精、前列腺增生等。3、危害呼吸系统。雾霾天气极易引发上呼吸道感染，多以咳嗽、打喷嚏、流鼻涕为主要症状；雾天中的可吸入颗粒、二氧化硫等污染物是诱发哮喘、慢性支气管炎的主要因素。4、不利于儿童成长。由于雾天日照减少，儿童紫外线照射不足，体内维生素D生成不足，对钙的吸收大大减少，严重的会引起婴儿佝偻病、儿童生长减慢。5、影响心理健康。专家指出，持续大雾天对人的心理和身体都有影响，从心理上说，大雾天会给人造成沉闷、压抑的感受，会刺激或者加剧心理抑郁的状态。</p><p class="m_6">对环境的危害：1、影响交通安全。雾霾天气时，由于空气质量差，能见度低，容易引起交通阻塞，发生交通事故。在日常行车行走时更应该多观察路况，以免发生危险。2、影响生态环境。雾霾天气对公路、铁路、航空、航运、供电系统、农作物生长等均产生重要影响。雾、霾会造成空气质量下降，影响生态环境，给人体健康带来较大危害。</p>
+					   	 
+					   </div>
+					</div>
+					<h4 class="m_5"><a href="#">具体危害</a></h4>
+				    
+				</div>
+                
+                
+				<div class="col-md-3 team1">
+					<a class="popup-with-zoom-anim" href="#small-dialog4"><img src="libs/img/bd5b4689ac5f170eda5d27e112567127.jpg" class="img-responsive" title="continue" alt=""/></a>
+				    <div id="small-dialog4" class="mfp-hide">
+					   <div class="pop_up2">
+					   	 <h2 class="m_5">预防措施</h2>
+                         <p class="m_6">1、遇到雾霾天气的时候，尽量减少外出活动的次数，和晨练的次数，尽量在室内活动，这样可以避免外出活动的过程中人体吸入大量的有害气体，从而影响人们的身体健康，尤其是有心脑血管的朋友，要更加注意了。</p><p class="m_6">2、如果一定要外出活动的情况下，应戴口罩，口罩的质量也是有要求的，一般最好是棉质的，或者是专用的防毒口罩，用更专业的口罩，这样可以更好的抵挡粉尘的侵入。</p><p class="m_6">3、遇到雾霾天气，应该避免开窗户通风，因为开窗户会让外面的污染空气进到室内，最好是关上窗户，这样可以避免一些有害气体的入侵。</p><p class="m_6">4、雾霾天气时有发生的情况下，我们就应该多吃蔬菜，例如海带、木耳之类的，这样蔬菜有清肺的功效，此外还要多吃一些水果，从而可以补充一下维生素，对人体是非常有好处的。</p><p class="m_6">5、可以适当的在屋内摆放一些绿色的植物，如绿萝、吊篮等等，这些绿色植物可以吸收空气内的有害气体，释放氧分，使空气保持清新。</p>
+						
+					   </div>
+					</div>
+					<h4 class="m_5"><a href="#">预防措施</a></h4>
+				</div>
+			</div>
+            
+            
+            
+            <div class="text"  style="border-right:1px solid #666">
+            <h3 class="m_2">今日天气</h3>
+            		<p class="m_6">
+                    <div class="tianqi" style="text-align:center;">
+                 <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=83" width="515" height="185" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+                    </div>
+                        <img src="kongqi.png" />
+                    </p>
+            </div>
+			<div class="row">
+				<div class="col-md-4 team_bottom">
+				  <ul class="team_list">
+					<h3 class="m_2">监测点分布</h3	>
+                   		 <div id="mapCon" style=" width:560px; height:580px; text-align:center; border:1px  double">
+  							 </div>
+		          </ul>
+				</div>
+
+</div>
+				<div  style="padding-top:50px">					
+					 <h3 class="m_2">本日监测信息</h3>
+				</div>
+
+                <div id="grid_div_11"> </div>
+
+                	<div  style="padding-top:50px">					
+					 <h3 class="m_2">AQI(空气质量指数)浓度比</h3>
+				</div>
+                  <div id="TongJi_DueBi" style="width: 1100px;height:500px;"></div>
+                 
+               
+               
+             
+		          
+				
+			
+		</div>
+	   </div>
+	  </div>
+	  <div class="footer">
+			<div class="container">
+            <div class="row footer_bottom">
+				    <div class="copy">
+			           <p>© 2016 copyright by JLJUGIS</p>
+                       </div>
+                       <dl id="sample" class="dropdown" style="font-family:'微软雅黑'">
+                        <a class="popup-with-zoom-anim" href="#small-dialog5" style=" border-right:1px  double; padding-right:4px ">小组成员</a>
+                        <a class="popup-with-zoom-anim" href="#small-dialog6" style=" border-right:1px  double ;padding-right:4px">联系方式</a>
+                        <a class="popup-with-zoom-anim" href="#small-dialog7"  >使用指南</a>
+                        </dl>
+                      
+                      
+                      
+                       <div id="small-dialog5" class="mfp-hide"> 
+                      
+                                <div class="pop_up2">
+                                <p class="m_6">指导老师：肖扬 </p>
+                                 <p class="m_6">组长：林光耀 </p>
+                                 <p class="m_6">组员：岳天宇 熊道琦 臧宇哲</p>
+						
+					   </div>
+                       
+                       <div id="small-dialog6" class="mfp-hide"> 
+                      
+                               <div class="pop_up2">
+                                 <p class="m_6">联系QQ：995803652</p>
+                                 <p class="m_6">联系邮箱：995803652@qq.com</p>
+                                 <p class="m_6">承办单位：吉林建筑大学</p>
+                                 
+						
+					   </div>
+                       
+                       <div id="small-dialog7" class="mfp-hide"> 
+                      
+                               <div class="pop_up2">
+                                 <p class="m_6">请参考相关视频文件</p>
+						
+					   </div>
+					</div>
+		            </div>
+                    </div>
+				</div>
+                </div>
+		</div>
+</body>	
+</html>

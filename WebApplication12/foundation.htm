@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>长春雾霾信息平台</title>
+  
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/ZiDingYi.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui-1.8.2.custom.css" /> 
+      <link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="css/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/icon.css"/>
+    <link rel="stylesheet" type="text/css" href="css/color.css"/>
+    <link rel="stylesheet" type="text/css" href="css/caidanstyle1.css"/>
+    <link rel="stylesheet" type="text/css" href="css/table.css"/>
+
+    <script src="libs/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <script src="libs/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="libs/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="libs/OpenLayers.js" type="text/javascript"></script>
+    <script src="libs/zdclient.js" type="text/javascript"></script>
+    <script src="libs/bootstrap.min.js" type="text/javascript"></script>
+     <script src="libs/zdcontrol.js" type="text/javascript"></script> 
+     <script src="libs/echarts.js" type="text/javascript"></script> 
+
+    <script src="js/ZhangDianZhuoBiao.js" type="text/javascript"></script>
+     <script src="js/loadingMap.js" type="text/javascript"></script> 
+     <script src="js/TuPianBiaoZu.js" type="text/javascript"></script> 
+     <script src="js/datepicker.js" type="text/javascript"></script>
+     <script src="js/WuMaiChaXun.js" type="text/javascript"></script>
+     <script src="js/ReLiTu.js" type="text/javascript"></script>
+     <script src="js/Piao_ReLiTu.js" type="text/javascript"></script>
+     <script src="js/JiShuanWuRanYu.js" type="text/javascript"></script>
+     <script src="js/ShouDongTianJiaWuMaiXinXi.js" type="text/javascript"></script> 
+     <script src="js/MapMeasure.js" type="text/javascript"></script> 
+     <script src="js/GuoKongDian_YuCe.js" type="text/javascript"></script> 
+     <script src="js/TuXing_draw.js" type="text/javascript"></script> 
+     <script src="js/WuMai_YuCe.js" type="text/javascript"></script>
+      <script src="js/TongJiTuBiao.js" type="text/javascript"></script> 
+      <script src="js/huadongtiao.js" type="text/javascript"></script> 
+       <script src="js/KuoSanmoni.js" type="text/javascript"></script> 
+     <script src="js/Tomorrow_nongdu.js" type="text/javascript"></script> 
+     <script src="js/android.js" type="text/javascript"></script> 
+     <script src="js/JiChu.js" type="text/javascript"></script> 
+
+
+  <script type="text/javascript">
+      $(document).ready(init);
+
+      $(function () {
+          $('#sdt_menu > li').bind('mouseenter', function () {
+
+              var $elem = $(this);
+
+              $elem.find('img').stop(true).animate({
+                  'width': '139px',
+                  'height': '139px',
+                  'left': '0px'
+              }, 400, 'easeOutBack').andSelf().find('.sdt_wrap').stop(true).animate({ 'top': '0px' }, 500, 'easeOutBack').andSelf().find('.sdt_active').stop(true).animate({ 'height': '0px' }, 300, function () {
+                  var $sub_menu = $elem.find('.sdt_box');
+                  if ($sub_menu.length) {
+                      var left = '0px';
+                      if ($elem.parent().children().length == $elem.index() + 1)
+                          left = '0px';
+                      $sub_menu.show().animate({ 'left': left }, 200);
+                  }
+              });
+
+          }).bind('mouseleave', function () {
+              var $elem = $(this);
+
+              var $sub_menu = $elem.find('.sdt_box');
+
+              if ($sub_menu.length)
+
+                  $sub_menu.hide().css('left', '0px');
+
+              $elem.find('.sdt_active').stop(true).animate({ 'height': '0px' }, 300).andSelf().find('img').stop(true).animate({
+                  'width': '0px',
+                  'height': '0px',
+                  'left': '85px'
+              }, 400).andSelf().find('.sdt_wrap').stop(true).animate({ 'top': '25px' }, 500);
+          });
+
+      });   
+    </script>
+</head>
+<body>
+
+<div id="mapCon">
+    </div>
+
+     <div id="header title" style="position:absolute; padding-left:4px;">
+         <img src="images/改后logo(1).png" />
+   </div>
+
+
+  
+  <div id="page" style="position:absolute;padding-top:28px;">
+	<div id="container" class="content clearfix">
+	<ul id="sdt_menu" class="sdt_menu">
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/工具箱.png" alt=""/>
+				<span class="sdt_active"></span>
+				<span class="sdt_wrap">
+					<span class="sdt_link">基础功能</span>
+					<span class="sdt_descr"></span>
+				</span>
+			</a>
+            <div class="sdt_box">
+				
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#GuoKongDei').window('open')" style="display:block;">国控点标注</a>
+			<!--	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#WuMaiChaXun_riqi_easyui').window('open')" style="display:block;">雾霾条件查询</a> -->
+         
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#measure_easyui').window('open')" style="display:block;">几何量测</a>
+                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#JiChu_easyui').window('open')" style="display:block;">地图基本操作</a>
+                  <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#JiBen_easyui').window('open')" style="display:block;">地图基本信息</a>
+               
+
+			</div>
+		</li>
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/定位.png" alt=""/>
+				<span class="sdt_active"></span>
+				<span class="sdt_wrap">
+					<span class="sdt_link">模型演示</span>
+					<span class="sdt_descr"></span>
+				</span>
+			</a>
+			<div class="sdt_box">
+				
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#ReLiTu_easyui').window('open')" style="display:block;">热力图演示</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#KuoSanMoni_easyui').window('open')" style="display:block;">雾霾扩散模拟</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#LiShiShuJuTongJiTu_easyui').window('open')" style="display:block;">历史数据统计图</a>
+                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#TongJi_DigData_yuce_easyui').window('open')" style="display:block;">预测雾霾信息</a>
+			</div>
+		</li>
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/烟囱.png" alt=""/>
+				<span class="sdt_active"></span>
+				<span class="sdt_wrap">
+					<span class="sdt_link">子模块</span>
+					<span class="sdt_descr"></span>
+				</span>
+			</a>
+            <div class="sdt_box">
+                <a href="team.html" class="easyui-linkbutton"  style="display:block;">公共平台</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#WuMaiChaXun_riqi_easyui').window('open')" style="display:block;">雾霾条件查询</a>
+				 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#MingRiGuoKongDianNongDu').window('open')" style="display:block;">雾霾浓度预测</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#GuoKongDei_yuCe_easyui').window('open')" style="display:block;">国控点覆盖</a>
+			</div>
+		</li>
+		
+		<li>
+			<a href="#" target="_blank">
+                <img src="images/GUAN.png" />
+
+				<span class="sdt_active"></span>
+				<span class="sdt_wrap">
+					<span class="sdt_link">管理员入口</span>
+					<span class="sdt_descr"></span>
+				</span>
+			</a>
+             <div class="sdt_box">
+             
+             
+                <a href="LOGIN.htm" class="easyui-linkbutton"  style="display:block;">点击登录</a>
+				
+                
+			</div>
+		</li>
+	</ul>
+  </div>   
+ </div> 
+  
+  
+
+  <div id="JiChu_easyui" class="easyui-window" title="地图基本操作" data-options="cls:'c2',border:'thin'"  shadow="false" closed="true" style="width:200px;height:160px; padding-left:6px;">
+               <input type="button"   class="ButtonLib"  value="点击放大"  id="Button15" onclick="JiChu_fangda()"/> 
+                <input type="button"   class="ButtonLib"  value="点击缩小"  id="Button16" onclick="JiChu_shuoxiao()"/>
+                <br />
+                <input type="button"   class="ButtonLib"  value="拉框放大"  id="Button17" onclick="JiChu_lada()"/> 
+                <input type="button"   class="ButtonLib"  value="拉框缩小"  id="Button18" onclick="JiChu_laxiao()"/>
+                <br />
+                <input type="button"   class="ButtonLib"  value="鼠标移动"  id="Button19" onclick="JiChu_move()"/>
+                <input type="button"   class="ButtonLib"  value="地图复位"  id="Button21" onclick="JiChu_reset()"/>
+
+
+  
+  </div>
+
+ 
+
+   <div id="JiBen_easyui" class="easyui-window" title="地图基本信息" data-options="cls:'c2',border:'thin'"  shadow="false" closed="true" style="width:540px;height:250px; padding-left:6px;">
+                 <strong>视窗坐标:</strong><input type="text" id="TXT_ViewPort" name="type" class="ButtonLib" size="40" />
+                 	<br />
+                   <strong>逻辑坐标:</strong><input type="text" id="TXT_Logic" name="type" class="ButtonLib" size="40" />
+                   <br/>
+                  <input type="button"   class="ButtonLib"  value="显示比例尺"  id="Button20" onclick="JiChu_bilichu()"/>                                    
+                   <input type="button"   class="ButtonLib"  value="获取最大分辨率"  id="Button22" onclick="getCurResolution()"/>
+                   <input type="button"   class="ButtonLib"  value="获取地图范围"  id="Button23" onclick="getCurBound()"/>
+                   <input type="button"   class="ButtonLib"  value="当前视窗大小"  id="Button24" onclick="getMapDivInfo()"/>
+                 
+
+     </div>
+
+  
+	<div id="GuoKongDei" class="easyui-window" title="国控点标注" data-options="cls:'c2',border:'thin'"  shadow="false" closed="true" style="width:600px;height:500px;">
+			
+         <div class="easyui-layout" data-options="fit:true">
+
+          <div data-options="region:'center'" split:true" style="text-align: center;padding:5px 0 0; width:100px;">
+         	
+            
+
+                   <table class="gridtable"  style="width:95%;margin:0px auto;">
+                            <tr>
+                                <th scope="col">国控点名称</th>
+                                <th scope="col">AQI值</th>
+                                <th scope="col">首要污染物</th>
+                                <th scope="col">超标污染物</th>
+                                <th scope="col">空气质量</th>
+                            </tr>
+                            <tr>
+                                <th scope="col"> <input type="button" value="食品厂" onclick="shipinchang_dingwei()"/></th>
+                                
+                                <td>  <input type='text' class='form-control' id='AQI_zhangdian_00'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_00'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_00'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_00'/>   </td>
+                            </tr>
+                            <tr>
+                                <th scope="col"><input type="button"value="经开区环卫处"onclick="jingkaiquhuanweichu_dingwei()" /></th>
+                                 <td>  <input type='text' class='form-control' id='AQI_zhangdian_11'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_11'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_11'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_11'/>   </td>
+                            </tr>
+                            <tr>
+                            	<th scope="col"><input type="button" value="邮电学院" onclick="youdianxueyuan_dingwei()" /></th>
+                                 <td>  <input type='text' class='form-control' id='AQI_zhangdian_22'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_22'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_22'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_22'/>   </td>
+                            </tr>
+                            <tr>
+                             	<th scope="col"><input type="button" value="劳动公园" onclick="laodonggongyuan_dingwei()" /></th>
+                                 <td>  <input type='text' class='form-control' id='AQI_zhangdian_33'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_33'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_33'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_33'/>   </td>
+                            </tr>
+                            <tr>
+                           		<th scope="col"> <input type="button"  value="园林处" onclick="yunlinchu_dingwei()" /></th>
+                                 <td>  <input type='text' class='form-control' id='AQI_zhangdian_44'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_44'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_44'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_44'/>   </td>
+                            </tr>
+                            
+                            <tr>
+                                <th scope="col"><input type="button"  value="高新区管委会" onclick="gaoxinquguanweihui_dingwei()" /></th>
+                                 <td>  <input type='text' class='form-control' id='AQI_zhangdian_55'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_55'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_55'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_55'/>   </td>
+                              </tr>
+                              <tr>
+                                <th scope="col"> <input type="button"  value="岱山公园" onclick="daishangongyuan_dingwei()"/></th>
+                                 <td>  <input type='text' class='form-control' id='AQI_zhangdian_66'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_66'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_66'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_66'/>   </td>
+                              </tr>
+                              <tr>
+                                <th scope="col"> <input type="button"  value=" 净月潭" onclick="jingyuetan_dingwei()" /></th>
+                                <td>  <input type='text' class='form-control' id='AQI_zhangdian_77'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_77'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_77'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_77'/>   </td>
+                              </tr>
+                              <tr>
+                                <th scope="col"> <input type="button" value=" 甩湾子" onclick="shuaiwanzi_dingwei()" /></th>
+                                <td>  <input type='text' class='form-control' id='AQI_zhangdian_88'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_88'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_88'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_88'/>   </td>
+                              </tr>
+                              <tr>
+                                <th scope="col"><input type="button"  value=" 客车厂" onclick="kechechang_dingwei()" /></th>
+                                <td>  <input type='text' class='form-control' id='AQI_zhangdian_99'/> </td>
+                                <td> <input type='text' class='form-control' id='shoyaowushan_zhangdian_99'/>   </td>
+                                 <td>  <input type='text' class='form-control' id='chaobiao_zhangdian_99'/> </td>
+                                <td> <input type='text' class='form-control' id='air_quality_zhangdian_99'/>   </td>
+                              </tr>
+                   </table>
+                 
+                 <div data-options="region:'south',border:false" style="text-align:right;padding-right:15px; padding-top:15px;">
+                     <input type="button" class="ButtonLib" value="站点标注" onclick="addImage()"/>   <input type="button" class="ButtonLib" value="清除标注" onclick="clearImgMarker()"/>
+                     </div>
+                     </div>
+
+		  </div>			
+		</div>
+
+
+
+
+     <div id="WuMaiChaXun_riqi_easyui" class="easyui-window" title="雾霾条件查询"  data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:650px;height:380px;padding:0px;">
+            <div class="easyui-layout" data-options="fit:true,">
+             
+                 <div data-options="region:'center'" split:true" style="text-align:left;padding:5px 5px 5px; width:100px;">
+
+
+                                     <h5>国控点选择
+                                        <select name="国控点选择" id="guoKongdian_select" style=" font-size:14px">
+                                          <option>食品厂</option>
+                                          <option>客车厂</option>
+                                          <option selected="selected">净月潭</option>
+                                          <option>邮电学院</option>
+                                          <option>劳动公园</option>
+                                          <option>园林处</option>
+                                          <option>甩湾子</option>
+                                          <option>经开环卫处</option>
+                                          <option>高新区管委会</option>
+                                          <option>岱山公园</option>
+                                          <option>ALL</option>
+                                        </select>
+                                      </h5>
+      
+                                      <h5>污染物选择
+                                        <select name="污染物选择" id="guoKongdian_weranwu_select" style=" font-size:14px">
+                                          <option>PM2.5</option>
+                                          <option>PM10</option>
+                                          <option selected="selected">AQI</option>
+                                          <option>CO</option>
+                                          <option>NO2</option>
+                                          <option>O3</option>
+                                          <option>SO2</option>
+                                          <option>ALL</option>
+                                        </select>
+                                      </h5>
+
+             <div >    
+                 
+                       <h5 class="radio-inline" style=" position:relative; margin-left:2px;">
+                      <input type="radio" name="gkd_xuanZheRiqi" id="inlineRadio1" value="option_Dan"/> 单日
+                      </h5>
+
+                       <h5>日期选择: <input type="text" id="datepicker" size="20"/></h5>
+                    </h4>
+           
+                    <h5 class="radio-inline" style="position: relative; margin-left:2px;">
+                      <input type="radio" name="gkd_xuanZheRiqi" id="Radio1" value="option_shuang" style="padding-left:4px;"/> 多日
+                               <h5>开始:  <input type="text" id="start_daytime_gkd" size="20"/></h5>
+                              <h5>结束: <input type="text" id="end_daytime_gkd" size="20"/></h5>
+                    </h5>
+                </div>
+
+                  
+
+
+                  <div style="padding-top:10px;">
+                   <input type="button"   class="ButtonLib"  value="查询"  id="wmcx" onclick="WMCX()"/>
+                   <input type="button"   class="ButtonLib"  value="单个统计图表"  id="Button9" onclick="TJ_DangGe()"/>
+                   <input type="button"   class="ButtonLib"  value="各站点对比统计"  id="Button10" onclick="TJ_DueBi()"/>
+       
+                   </div>
+                   </div>
+
+                   <div data-options="region:'east',split:true" style="width:410px; padding-left:20px; padding-top:20px;">
+
+                <div id="grid_div"> </div>
+                 <div id="TongJi_DanGe" style="width: 300px;height:200px;"></div>
+                  <div id="TongJi_DueBi" style="width: 300px;height:500px;"></div>
+               
+	            </div>
+                </div>
+            </div>
+   
+  
+   
+            <div id="ReLiTu_easyui" class="easyui-window" title="热力图演示"  data-options="cls:'c2',border:'thin'"  shadow="false" closed="true" style="width:300px;height:300px;padding:0px;">
+                <ul id="myTab" class="nav nav-tabs">
+                   <li class="active">
+                      <a href="#home" data-toggle="tab"  >单日热力图显示</a>    
+                   </li>
+                   <li><a href="#ios" data-toggle="tab"  >热力图动态演示</a></li> 
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                   <div class="tab-pane fade in active" id="home" style="padding-top:20px; padding-left:20px;">
+                      <p>时间日期: <input type="text" id="datepicker_ReLiTu" size="30"/></p>
+                      <input type="button" class="ButtonLib" value="显示" onclick="createHeatPoints()"/>   
+                       <input id="removeHeatMapBtn" type="button" value="清除热力图" class="ButtonLib" onclick="clearHeatPoints()" />    
+                   </div>
+                   <div class="tab-pane fade" id="ios" style="padding-top:20px; padding-left:20px;">
+                     <p>开始:  <input type="text" id="start_daytime"></p>
+                          <p>结束: <input type="text" id="end_daytime"></p> 
+                          <input type="button" class="ButtonLib" value="演示" onclick="Piao_WuMai()"/> 
+                            <input id="Button6" type="button" value="清除热力图2" class="ButtonLib" onclick="clearHeatPoints2()" />
+                   </div>
+  
+                </div>
+            </div>
+
+                
+                
+          <div id="SouDongTianJiaWuMaiXinXi_easyui" class="easyui-window" title="添加雾霾信息"  data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:600px;height:530px;padding:0px;">
+    
+                <!-- 有点问题-->
+
+            <ul id="Ul1" class="nav nav-tabs">
+   
+               <li class="active"><a href="#SCZP" data-toggle="tab">上传照片</a></li> 
+               <li ><a href="#LURUxx" data-toggle="tab">录入信息</a> </li>   
+ 
+            </ul>
+
+            <div class="easyui-layout" data-options="fit:true">
+
+            <div data-options="region:'center'" style="padding:10px;">
+                    <div id="Div2" class="tab-content">
+                      <div class="tab-pane fade in active" id="SCZP" style="padding-left:20px; padding-top:20px;" >
+                         <img id='preview' src='' width='400' height='300' style='display: block;border: 1px solid blue;' />
+                         <input type='file' name='file' id='doc' multiple='multiple' style='width:300px;' onchange='javascript:setImagePreview();'/>
+                         <br />
+                         <input type='button'  value='清除' onclick='clearZhaopian()'/>
+                       </div> 
+                       <div class="tab-pane fade " id="LURUxx"  style="padding-left:20px; padding-top:20px;">
+                       <p><h4>观测日期:<input type='text'  id='riqi_SD' size='30'/></h4></p>
+                       <div id="ShouDong_XingXi"> </div>
+                       
+                         <button type='button' class='btn btn-default' onclick='JiShuanWuRan()'>计算</button>
+                       </div>
+        
+                       <div data-options="region:'south',border:false" style="text-align:right; padding-bottom:30px;">
+                       <input type="button"   class="ButtonLib"  value="手动添加"  id="Button5" onclick="ShouDongTianJia()"/>
+                       <input type="button" class="ButtonLib" value="清除标注" onclick="removeMarker()"/>
+                       <input type="button"   class="ButtonLib"  value="雾霾信息录入"  id="Button1" onclick="JiShuanWuRan_save()"/>
+                       </div>
+                    </div>
+                </div>
+            </div>
+
+</div>
+
+
+
+	        <div id="measure_easyui" class="easyui-window" title="几何测量"data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:230px;height:200px;padding:0px;">
+		        <button  class="ButtonLib"  onclick="activateCtl('dist')">量距</button>
+                <button class="ButtonLib"  onclick="activateCtl('area')">量面积</button>
+                <button  class="ButtonLib"  onclick="clearCLMeasure() ">清除</button>
+	        </div>
+
+ 
+    <div id="GuoKongDei_yuCe_easyui" class="easyui-window" title="国控点覆盖" data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:340px;height:200px;padding:4px 0px 0px 4px;">
+		<h5>请输入覆盖范围(米)：<input type="text"  id="YCGKD" size="20" /></h5>
+       <input type="button"   class="ButtonLib"  value="预测国控点"  id="Button2" onclick="GuoKongDian_yuCe()"/>
+        <input type="button"   class="ButtonLib"  value="清除国控点"  id="Button222" onclick="GuoKongDian_yuCe_Clear()"/>
+        <input type="button"   class="ButtonLib"  value="添加覆盖点"  id="Button25" onclick="GuoKongDian_ShouDong()"/>
+	</div>
+
+    <div id="TongJi_DigData_yuce_biao" class="easyui-window"  closed="true" data-options="cls:'c2',border:'thin'" shadow="false"  style="width:600px;height:400px;padding:0px;">
+		 <input type="button"   class="ButtonLib"  value="任意区域预测统计图"  id="Button4" onclick="TJ_DigData_yuce_RanYi()"/>
+        <div id="TongJi_DigData_yuce" style="width: 600px;height:400px;">
+        </div>
+	</div>
+
+    <div id="LiShiShuJuTongJiTu_easyui" class="easyui-window" title="历史数据统计图" data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:630px;height:420px;padding:0px;">
+		 
+      
+      <label style=" font-size:15px" >选择站点：</label>
+            <select id="TJ_BigData_select" >
+                <option>食品厂</option>
+                <option selected="selected">客车厂</option>
+                <option>邮电学院</option>
+                <option>劳动公园</option>
+                <option>园林处</option>
+                <option>净月潭</option>
+                <option>甩湾子</option>
+                <option>经开区环卫处</option>
+                <option>高新区管委会</option>
+                <option>岱山公园</option>
+            </select>
+       <label style=" font-size:15px; padding-left:5px;">选择指标：</label>
+            <select id="TJ_BigDataZB_select" >
+                <option>AQI</option>
+                <option selected="selected">PM25</option>
+                <option>NO2</option>
+                <option>PM10</option>
+                <option>SO2</option>
+                <option>O3</option>
+                <option>CO</option>
+            </select>
+            <input type="button"   class="ButtonLib"  value="统计图"  id="Button7" onclick="TJ_DigData()"/>
+             <input type="button"   class="ButtonLib"  value="关闭图表"  id="Button8" onclick="TJ_close()"/>
+           <div id="TongJi_DigData" style="width: 600px;height:360px;"></div>
+	</div>
+
+  <div id="KuoSanMoni_easyui" class="easyui-window" title="雾霾扩散模拟"   data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:300px;height:320px;padding:0px;">
+		
+		       <form class="form-inline">
+
+    <div class="form-group"  style="padding-top:20px; padding-left:20px">
+    
+        <p>
+            <label for="diShi">地势(%):</label>
+            <input type="text" id="diShi" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            
+        <div id="slider-dishi"></div>
+        </p>
+           <p>
+            <label for="fengsu">风速(km):</label>
+            <input type="text" id="fengsu" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          
+        <div id="slider_fs"></div>
+        </p>
+        <fieldset>
+  
+            <label for="XiaJiFengFangXiang">风向：</label>
+            <select id="XiaJiFengFangXiang" >
+                <option>东风</option>
+                <option selected="selected">西风</option>
+                <option>南风</option>
+                <option>北风</option>
+                <option>东南风</option>
+                <option>东北风</option>
+                <option>西南风</option>
+                <option>西北风</option>
+            </select>
+               
+        </fieldset>
+        <div class="saocaozuo"  style="padding-top:80px; padding-left:20px; text-align:center;">
+       <input type="button"   class="ButtonLib"  value="选址"  id="Button13" onclick="ksmixu()"/>
+      <input type="button"   class="ButtonLib"  value="扩散模拟"  id="Button11" onclick="KuoSanMoMi()"/>
+      <input type="button"   class="ButtonLib"  value="清除"  id="Button12" onclick="KuoSanMoMi_clear()"/>
+      </div>
+    </div>
+     </form>
+         
+    </div>
+
+
+
+    <div id="MingRiGuoKongDianNongDu" class="easyui-window" title="明日雾霾信息预测" data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:600px;height:560px;padding:0px;">
+ <input type="button"   class="ButtonLib"  value="查询"  id="mingrind" onclick="MRMD()"/>
+ <div id="mingri_biao"> </div>
+	</div>
+
+  
+     <div id="Android_fankue" class="easyui-window" title="移动端反馈"  data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:600px;height:300px;padding:0px;">
+   <h4>日期: <input type="text" id="android_date" size="30"/>
+   <input type="button"   class="ButtonLib"  value="查询"  id="android_caxun" onclick="Android_CAXUN()"/>
+   <input type="button"   class="ButtonLib"  value="显示"  id="android_xianshi" onclick="Android_XIAN()"/>
+    <input type="button"   class="ButtonLib"  value="清除"  id="Button14" onclick="Android_QingChu()"/></h4>
+     <div id="android_div"> </div>
+	</div>
+ 
+ 
+    
+     <div id="TongJi_DigData_yuce_easyui" class="easyui-window" title="预测任意一点、地区的雾霾信息" data-options="cls:'c2',border:'thin'" shadow="false" closed="true" style="width:660px;height:400px;padding:0px;">
+    	   
+           
+      <div class="easyui-layout" data-options="fit:true">
+       <div data-options="region:'center'" style="text-align: left;padding-top:5px; padding-left:3px; width:100px;">
+           
+           <h5>请选择日期: <input type="text" id="datepicker_danDianYuCe" size="20"/></h5> 
+         <table id="contentTable">
+             <tr id="contentTableRow">       
+                <td id="toolSpanelCon">                           
+                    <div  class="itembox">
+                        <h5 for="VectorType">请选择图形：
+                        <select id="VectorType" name="vec"  onclick="toggleControl(this)">
+                            <option value="point" label="点" selected="selected">点</option>
+                            <option value="polygon" label="多边形">多边形</option>
+                            <option value="RegularPolygon" label="矩形">矩形</option>                      
+                            <option value="RegularPolygon" label="圆">圆</option>
+                        </select>
+                        </h5>
+                        </div>
+                              
+                    </td>
+                </tr> 
+            </table>   
+    
+        
+           <h5 >请选择指标：
+            <select id="TJ_BigDataZB_Yuce_select" >
+                <option>AQI</option>
+                <option selected="selected">PM25</option>
+                <option>NO2</option>
+                <option>PM10</option>
+                <option>SO2</option>
+                <option>O3</option>
+                <option>CO</option>
+            </select>
+            </h5>
+              <textarea id="getposInfoText" style="width:240px; height:100px;">坐标信息：</textarea> <br />
+
+              <div  style="padding-top:10px;">
+                     <input type="button" class="ButtonLib" value="雾霾预测" onclick="DanDianWuMai_YuCe()"/>
+                     <a href="javascript:void(0)" class="ButtonLib" onclick="$('#TongJi_DigData_yuce_biao').window('open')" style="display:block; width:130px; text-decoration:none; float:left; color:#000">任意区域预测图</a>
+                      <input type="button" class="ButtonLib" value="关闭信息" onclick="moveDanDianWuMai_YuCe()"/>
+                      <input type="button" id="Button3" class="ButtonLib" value="清除所有图形" onclick="clearGraphics()" /></div>
+                      </div>
+                      
+
+          <div data-options="region:'east',split:true" style="width:410px; padding-left:20px; padding-top:4px;">
+            <div id="WuMai_YuCe_div"> </div>
+            </div>
+
+            </div>
+	</div>
+
+</body>
+</html>

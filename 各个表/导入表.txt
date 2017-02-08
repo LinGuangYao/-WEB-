@@ -1,0 +1,16 @@
+imp lgy/123456@orcl file=f:\下载\daishangongyuan0.dmp tables=daishangongyuan0
+
+select * from shipinchang where riqi=to_date('2016-06-16', 'yyyy-mm-dd ');按日期查询
+
+select aqi,riqi from SHIPINCHANG0 order by  riqi;按日期排序
+
+truncate table  WUMAIYUCELINGSHIBIAO;//删除表中数据
+
+select aqi from shipinchang0 where riqi>=to_date('2016-07-01' ,'yyyy-mm-dd') and riqi<=to_date('2016-7-5' ,'yyyy-mm-dd')
+
+insert into SHOUDONGZHANDIAN (WEIZI,AQI,NO2,PM25,PM10,SO2,O3,CO,RIQI,X,Y,SHOYAOWUSHAN,CHAOBIAO,AIR_QUALITY) values
+select * from SHOUDONGZHANDIAN
+
+select * from (select * from shipinchang where riqi=20150108 union select * from kechechang where riqi=20150108);查询和并
+
+insert into SHOUDONGZHANDIAN (WEIZI,AQI,NO2,PM25,PM10,SO2,O3,CO,RIQI,RIQI,X,Y,SHOYAOWUSHAN,CHAOBIAO,AIR_QUALITY) values(WeiZhi_jeidao,AQI_MAX,NO2,PM25)"

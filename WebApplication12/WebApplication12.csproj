@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{106A3DE3-B46C-4473-8127-2BA59C19D04F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebApplication12</RootNamespace>
+    <AssemblyName>WebApplication12</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\Administrator\Desktop\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\base.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\component.css" />
+    <Content Include="css\easyui.css" />
+    <Content Include="css\hack.css" />
+    <Content Include="css\haiersoft.css" />
+    <Content Include="css\icon.css" />
+    <Content Include="css\icons\back.png" />
+    <Content Include="css\icons\blank.gif" />
+    <Content Include="css\icons\cancel.png" />
+    <Content Include="css\icons\clear.png" />
+    <Content Include="css\icons\cut.png" />
+    <Content Include="css\icons\edit_add.png" />
+    <Content Include="css\icons\edit_remove.png" />
+    <Content Include="css\icons\filesave.png" />
+    <Content Include="css\icons\filter.png" />
+    <Content Include="css\icons\help.png" />
+    <Content Include="css\icons\large_chart.png" />
+    <Content Include="css\icons\large_clipart.png" />
+    <Content Include="css\icons\large_picture.png" />
+    <Content Include="css\icons\large_shapes.png" />
+    <Content Include="css\icons\large_smartart.png" />
+    <Content Include="css\icons\lock.png" />
+    <Content Include="css\icons\man.png" />
+    <Content Include="css\icons\mini_add.png" />
+    <Content Include="css\icons\mini_edit.png" />
+    <Content Include="css\icons\mini_refresh.png" />
+    <Content Include="css\icons\more.png" />
+    <Content Include="css\icons\no.png" />
+    <Content Include="css\icons\ok.png" />
+    <Content Include="css\icons\pencil.png" />
+    <Content Include="css\icons\print.png" />
+    <Content Include="css\icons\redo.png" />
+    <Content Include="css\icons\reload.png" />
+    <Content Include="css\icons\search.png" />
+    <Content Include="css\icons\sum.png" />
+    <Content Include="css\icons\tip.png" />
+    <Content Include="css\icons\undo.png" />
+    <Content Include="css\images\accordion_arrows.png" />
+    <Content Include="css\images\blank.gif" />
+    <Content Include="css\images\calendar_arrows.png" />
+    <Content Include="css\images\combo_arrow.png" />
+    <Content Include="css\images\datagrid_icons.png" />
+    <Content Include="css\images\datebox_arrow.png" />
+    <Content Include="css\images\layout_arrows.png" />
+    <Content Include="css\images\linkbutton_bg.png" />
+    <Content Include="css\images\loading.gif" />
+    <Content Include="css\images\menu_arrows.png" />
+    <Content Include="css\images\messager_icons.png" />
+    <Content Include="css\images\pagination_icons.png" />
+    <Content Include="css\images\panel_tools.png" />
+    <Content Include="css\images\searchbox_button.png" />
+    <Content Include="css\images\slider_handle.png" />
+    <Content Include="css\images\spinner_arrows.png" />
+    <Content Include="css\images\tabs_icons.png" />
+    <Content Include="css\images\tree_icons.png" />
+    <Content Include="css\images\validatebox_warning.png" />
+    <Content Include="css\jquery-ui-1.8.2.custom.css" />
+    <Content Include="css\magnific-popup.css" />
+    <Content Include="css\mapcon.css" />
+    <Content Include="css\print.css" />
+    <Content Include="css\reset.css" />
+    <Content Include="css\style-1.css" />
+    <Content Include="css\style-log.css" />
+    <Content Include="houtai.htm" />
+    <Content Include="images\bg.gif" />
+    <Content Include="images\common\clear.gif" />
+    <Content Include="images\common\ico01.png" />
+    <Content Include="images\common\ico02.png" />
+    <Content Include="images\common\ico03.png" />
+    <Content Include="images\common\ico04.gif" />
+    <Content Include="images\common\ico05.png" />
+    <Content Include="images\common\ico06.png" />
+    <Content Include="images\common\ico07.png" />
+    <Content Include="images\common\ico_arrow01.gif" />
+    <Content Include="images\common\ico_uer.gif" />
+    <Content Include="images\common\left.gif" />
+    <Content Include="images\common\logo.gif" />
+    <Content Include="images\common\navi01.png" />
+    <Content Include="images\common\navi02.png" />
+    <Content Include="images\common\navi03.png" />
+    <Content Include="images\common\navi04.png" />
+    <Content Include="images\common\navi05.png" />
+    <Content Include="images\common\navi06.png" />
+    <Content Include="images\common\navi07.png" />
+    <Content Include="images\common\navi08.png" />
+    <Content Include="images\common\page_ttl.gif" />
+    <Content Include="images\common\right.gif" />
+    <Content Include="images\common\懒人图库.txt" />
+    <Content Include="images\login-sprite.png" />
+    <Content Include="js\JiChu.js" />
+    <Content Include="js\login.js" />
+    <Content Include="js\modernizr.custom.js" />
+    <Content Include="js\popwin.js" />
+    <Content Include="js\select.js" />
+    <Content Include="js\side.js" />
+    <Content Include="kongqi.png" />
+    <Content Include="libs\img\001kTivjgy6Kv2djMtAa2&amp;690.png" />
+    <Content Include="libs\img\28d78f9860357052f4ffae88133135f8.jpg" />
+    <Content Include="libs\img\487d138cd2aee060c111e20f5cd02213.jpg" />
+    <Content Include="libs\img\9fdf9ec3c05c18e6bb34ba71b9f3072e.jpg" />
+    <Content Include="libs\img\bd5b4689ac5f170eda5d27e112567127.jpg" />
+    <Content Include="libs\img\d2e8692afd1050b3a204bae8a0cabfa7.jpg" />
+    <Content Include="libs\img\f96f7228de1e2c13622fdae8ff06c1a4.png" />
+    <Content Include="libs\img\marker-red2.png" />
+    <Content Include="libs\img\resizeApi %285%29.png" />
+    <Content Include="libs\jQuery Easing.js" />
+    <Content Include="libs\jquery.leanModal.min.js" />
+    <Content Include="libs\jquery.magnific-popup.js" />
+    <Content Include="LOGIN.htm" />
+    <Content Include="team.html" />
+    <Content Include="js\android.js" />
+    <Content Include="js\Tomorrow_nongdu.js" />
+    <Content Include="libs\img\marker-gold.png" />
+    <Content Include="libs\img\marker.png" />
+    <Content Include="pandawarning.png" />
+    <Content Include="css\style.css" />
+    <Content Include="css\ZiDingYi.css" />
+    <Content Include="index.htm" />
+    <Content Include="js\datepicker.js" />
+    <Content Include="js\GuoKongDian_YuCe.js" />
+    <Content Include="js\huadongtiao.js" />
+    <Content Include="js\JiShuanWuRanYu.js" />
+    <Content Include="js\KuoSanmoni.js" />
+    <Content Include="js\loadingMap.js" />
+    <Content Include="js\MapMeasure.js" />
+    <Content Include="js\Piao_ReLiTu.js" />
+    <Content Include="js\ReLiTu.js" />
+    <Content Include="js\ShouDongTianJiaWuMaiXinXi.js" />
+    <Content Include="js\TongJiTuBiao.js" />
+    <Content Include="js\TuPianBiaoZu.js" />
+    <Content Include="js\TuXing_draw.js" />
+    <Content Include="js\WuMaiChaXun.js" />
+    <Content Include="js\WuMai_YuCe.js" />
+    <Content Include="libs\echarts.js" />
+    <Content Include="libs\zdcontrol.js" />
+    <Content Include="js\ZhangDianZhuoBiao.js" />
+    <Content Include="libs\bootstrap.min.js" />
+    <Content Include="libs\img\cloud-popup-relative.png" />
+    <Content Include="libs\img\east-mini.png" />
+    <Content Include="libs\img\layer-switcher-maximize.png" />
+    <Content Include="libs\img\layer-switcher-minimize.png" />
+    <Content Include="libs\img\marker-blue.png" />
+    <Content Include="libs\img\marker-green.png" />
+    <Content Include="libs\img\measuring-stick-off.png" />
+    <Content Include="libs\img\measuring-stick-on.png" />
+    <Content Include="libs\img\north-mini.png" />
+    <Content Include="libs\img\panning-hand-off.png" />
+    <Content Include="libs\img\panning-hand-on.png" />
+    <Content Include="libs\img\slider.png" />
+    <Content Include="libs\img\south-mini.png" />
+    <Content Include="libs\img\west-mini.png" />
+    <Content Include="libs\img\zoom-minus-mini.png" />
+    <Content Include="libs\img\zoom-plus-mini.png" />
+    <Content Include="libs\img\zoom-world-mini.png" />
+    <Content Include="libs\img\zoombar.png" />
+    <Content Include="libs\jquery-1.11.2.min.js" />
+    <Content Include="libs\jquery-ui.min.js" />
+    <Content Include="libs\jquery.easyui.min.js" />
+    <Content Include="libs\OpenLayers.js" />
+    <Content Include="libs\theme\default\img\add_point_off.png" />
+    <Content Include="libs\theme\default\img\add_point_on.png" />
+    <Content Include="libs\theme\default\img\blank.gif" />
+    <Content Include="libs\theme\default\img\close.gif" />
+    <Content Include="libs\theme\default\img\drag-rectangle-off.png" />
+    <Content Include="libs\theme\default\img\drag-rectangle-on.png" />
+    <Content Include="libs\theme\default\img\draw_line_off.png" />
+    <Content Include="libs\theme\default\img\draw_line_on.png" />
+    <Content Include="libs\theme\default\img\draw_point_off.png" />
+    <Content Include="libs\theme\default\img\draw_point_on.png" />
+    <Content Include="libs\theme\default\img\draw_polygon_off.png" />
+    <Content Include="libs\theme\default\img\draw_polygon_on.png" />
+    <Content Include="libs\theme\default\img\editing_tool_bar.png" />
+    <Content Include="libs\theme\default\img\move_feature_off.png" />
+    <Content Include="libs\theme\default\img\move_feature_on.png" />
+    <Content Include="libs\theme\default\img\navigation_history.png" />
+    <Content Include="libs\theme\default\img\overview_replacement.gif" />
+    <Content Include="libs\theme\default\img\pan-panel-NOALPHA.png" />
+    <Content Include="libs\theme\default\img\pan-panel.png" />
+    <Content Include="libs\theme\default\img\panning-hand-off.png" />
+    <Content Include="libs\theme\default\img\panning-hand-on.png" />
+    <Content Include="libs\theme\default\img\pan_off.png" />
+    <Content Include="libs\theme\default\img\pan_on.png" />
+    <Content Include="libs\theme\default\img\remove_point_off.png" />
+    <Content Include="libs\theme\default\img\remove_point_on.png" />
+    <Content Include="libs\theme\default\img\ruler.png" />
+    <Content Include="libs\theme\default\img\save_features_off.png" />
+    <Content Include="libs\theme\default\img\save_features_on.png" />
+    <Content Include="libs\theme\default\img\view_next_off.png" />
+    <Content Include="libs\theme\default\img\view_next_on.png" />
+    <Content Include="libs\theme\default\img\view_previous_off.png" />
+    <Content Include="libs\theme\default\img\view_previous_on.png" />
+    <Content Include="libs\theme\default\img\zoom-panel-NOALPHA.png" />
+    <Content Include="libs\theme\default\img\zoom-panel.png" />
+    <Content Include="libs\theme\default\style.css" />
+    <Content Include="libs\zdclient.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="subindex.htm" />
+    <Content Include="foundation.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ashx\andriod_readPic.ashx.cs">
+      <DependentUpon>andriod_readPic.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Android.ashx.cs">
+      <DependentUpon>Android.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Day_handler.ashx.cs">
+      <DependentUpon>Day_handler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Handler1.ashx.cs">
+      <DependentUpon>Handler1.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Handler2.ashx.cs">
+      <DependentUpon>Handler2.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\JiSuanWuRanWu.ashx.cs">
+      <DependentUpon>JiSuanWuRanWu.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Login.ashx.cs">
+      <DependentUpon>Login.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Piao_ReLiTu.ashx.cs">
+      <DependentUpon>Piao_ReLiTu.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Popu_wrw.ashx.cs">
+      <DependentUpon>Popu_wrw.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\ReLiTu.ashx.cs">
+      <DependentUpon>ReLiTu.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Tomorrow_nongdu.ashx.cs">
+      <DependentUpon>Tomorrow_nongdu.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\TongJi_BigData.ashx.cs">
+      <DependentUpon>TongJi_BigData.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\TongJi_BigData_circle.ashx.cs">
+      <DependentUpon>TongJi_BigData_circle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\TongJi_BigData_douBian.ashx.cs">
+      <DependentUpon>TongJi_BigData_douBian.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\TongJi_BigData_point.ashx.cs">
+      <DependentUpon>TongJi_BigData_point.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\WuMaiChaXun.ashx.cs">
+      <DependentUpon>WuMaiChaXun.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\WuMaiChaXun_DuoRi.ashx.cs">
+      <DependentUpon>WuMaiChaXun_DuoRi.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\WuMai_YuCe.ashx.cs">
+      <DependentUpon>WuMai_YuCe.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\WuMai_YuCe_circle.ashx.cs">
+      <DependentUpon>WuMai_YuCe_circle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\WuMai_YuCe_DoBian.ashx.cs">
+      <DependentUpon>WuMai_YuCe_DoBian.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\ZhangDianZhuoBiao.ashx.cs">
+      <DependentUpon>ZhangDianZhuoBiao.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\WuMaiChaXun.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\ZhangDianZhuoBiao.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\WuMaiChaXun_DuoRi.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\ReLiTu.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Day_handler.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Piao_ReLiTu.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\JiSuanWuRanWu.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\WuMai_YuCe.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\WuMai_YuCe_circle.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\WuMai_YuCe_DoBian.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\TongJi_BigData_circle.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\TongJi_BigData_point.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\TongJi_BigData_douBian.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\TongJi_BigData.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Popu_wrw.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Handler1.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Handler2.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Tomorrow_nongdu.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Android.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\andriod_readPic.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\top\" />
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Login.ashx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55772</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
